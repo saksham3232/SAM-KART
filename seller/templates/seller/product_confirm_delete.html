@@ -1,0 +1,90 @@
+{% extends 'seller/basic.html' %}
+{% load static %}
+{% load myfilters %}
+
+{% block title %}
+Confirm Deletion
+{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background: linear-gradient(135deg, #c3ec52 0%, #0ba29d 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .form-wrapper {
+    max-width: 460px;
+    margin: 50px auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.6s ease-in-out;
+    text-align: center;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1c1c1c;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #00b894, #0984e3);
+    color: white;
+    margin-bottom: 15px;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #0984e3, #00b894);
+    transform: scale(1.02);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.96);
+    background: linear-gradient(135deg, #00cec9, #6c5ce7);
+  }
+
+  .btn-secondary {
+    background-color: #dfe6e9;
+    color: #2d3436;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover {
+    background-color: #b2bec3;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="form-wrapper">
+  <h2>Delete "<strong>{{ object.product_name }}</strong>"?</h2>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Confirm Delete</button>
+  </form>
+  <a href="{% url 'seller-dashboard' %}" class="btn btn-secondary">Cancel</a>
+</div>
+{% endblock %}

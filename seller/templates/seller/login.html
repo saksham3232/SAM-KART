@@ -1,0 +1,127 @@
+{% extends 'seller/basic.html' %}
+{% load static %}
+{% load myfilters %}
+{% block title %}
+Login
+{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background: linear-gradient(135deg, #c3ec52 0%, #0ba29d 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .form-wrapper {
+    max-width: 420px;
+    margin: 30px auto;
+    padding: 1.5rem 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-wrapper h1 {
+    text-align: center;
+    color: #1c1c1c;
+    font-size: 2rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+
+  .form-wrapper h2 {
+    text-align: center;
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .login-labels {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 9px;
+    margin-top: 4px;
+    border: 1.5px solid #dee2e6;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #00b894;
+    box-shadow: 0 0 4px rgba(0, 184, 148, 0.4);
+    background-color: #fff;
+  }
+
+  .btn-primary {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #00b894, #0984e3);
+    border: none;
+    padding: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #0984e3, #00b894);
+    transform: scale(1.02);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.96);
+    background: linear-gradient(135deg, #00cec9, #6c5ce7);
+  }
+
+  .errorlist {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 5px;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="form-wrapper">
+  <h1>Maurya Shop</h1>
+  <h2>You must first log in with your customer account</h2>
+
+  <form method="POST">{% csrf_token %}
+    {{ form.non_field_error }}
+
+    <label for="id_username" class="login-labels">Email Address*</label>
+    {{ form.username.errors }}
+    {{ form.username|addclass:'form-control'|addplaceholder:'Email Address' }}
+
+    <label for="id_password" class="login-labels">Password*</label>
+    {{ form.password.errors }}
+    {{ form.password|addclass:'form-control'|addplaceholder:'Your Password' }}
+
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+</div>
+{% endblock %}

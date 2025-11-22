@@ -1,0 +1,165 @@
+{% extends 'customer/basic.html' %}
+{% load static %}
+{% load myfilters %}
+
+{% block title %}
+Checkout Details
+{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background: linear-gradient(135deg, #c3ec52 0%, #0ba29d 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .form-wrapper {
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 0.8rem 1rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-wrapper h1 {
+    text-align: center;
+    color: #1c1c1c;
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+
+  .form-wrapper h2 {
+    text-align: center;
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .form-wrapper p {
+    text-align: center;
+    color: #333;
+    font-size: 0.78rem;
+    margin-bottom: 10px;
+  }
+
+  .login-labels {
+    display: block;
+    margin-top: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.85rem;
+  }
+
+  .form-control,
+  .form-textarea {
+    width: 100%;
+    padding: 7px;
+    margin-top: 3px;
+    border: 1.4px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+  }
+
+  .form-control:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #00b894;
+    box-shadow: 0 0 3px rgba(0, 184, 148, 0.3);
+    background-color: #fff;
+  }
+
+  .btn-primary {
+    margin-top: 14px;
+    width: 100%;
+    background: linear-gradient(135deg, #00b894, #0984e3);
+    border: none;
+    padding: 9px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.88rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #0984e3, #00b894);
+    transform: scale(1.01);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.96);
+    background: linear-gradient(135deg, #00cec9, #6c5ce7);
+  }
+
+  .errorlist {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 3px;
+  }
+
+  @media (max-width: 768px) {
+    .form-wrapper {
+      padding: 0.8rem;
+    }
+
+    .form-wrapper h1 {
+      font-size: 1.3rem;
+    }
+
+    .form-wrapper h2 {
+      font-size: 0.85rem;
+    }
+
+    .form-wrapper p {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .btn-primary {
+      font-size: 0.85rem;
+      padding: 8px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="form-wrapper">
+  <h1>Maurya Shop</h1>
+  <h2>Enter Contact Details</h2>
+  <p>Enter your complete address where you want your order delivered.</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+      <label for="{{ field.id_for_label }}" class="login-labels">
+        {{ field.label }}{% if field.field.required %}*{% endif %}
+      </label>
+      {{ field.errors }}
+      {{ field }}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Save & Proceed to Payment</button>
+  </form>
+</div>
+{% endblock %}

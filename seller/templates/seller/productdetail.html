@@ -1,0 +1,170 @@
+{% extends 'seller/basic.html' %}
+{% load static %}
+{% block title %}{{ product.product_name }}{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .product-detail-container {
+    max-width: 1200px;
+    margin: 80px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+  }
+
+  .product-image {
+    flex: 1 1 40%;
+    max-width: 500px;
+  }
+
+  .product-image img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: #fff;
+  }
+
+  .product-details {
+    flex: 1 1 50%;
+    background: linear-gradient(135deg, #ffffff, #f1f3f8);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .product-details h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #4e54c8;
+  }
+
+  .price {
+    font-size: 1.5rem;
+    color: #28a745;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .meta-info {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .meta-info p {
+    margin: 6px 0;
+  }
+
+  .action-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-edit {
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+  }
+
+  .btn-edit:hover {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    transform: scale(1.05);
+  }
+
+  .btn-delete {
+    background: linear-gradient(to right, #f85032, #e73827);
+  }
+
+  .btn-delete:hover {
+    background: linear-gradient(to right, #f12711, #f5af19);
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    .product-detail-container {
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .product-image,
+    .product-details {
+      width: 100%;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+
+  .btn-edit,
+  .btn-delete {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-edit:hover,
+  .btn-delete:hover {
+    text-decoration: none !important;
+    color: white !important;
+  }
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="product-detail-container">
+  <div class="product-image">
+    <img src="/media/{{ product.image }}" alt="{{ product.product_name }}">
+  </div>
+
+  <div class="product-details">
+    <h1>{{ product.product_name }}</h1>
+    <div class="price">₹{{ product.price }}</div>
+
+    <div class="meta-info">
+      <p><strong>Brand:</strong> {{ product.brand }}</p>
+      <p><strong>Product ID:</strong> {{ product.pk }}</p>
+      <p><strong>Date Added:</strong> {{ product.date_added|date:"M d, Y, h:i A" }}</p>
+    </div>
+
+    <div class="action-buttons">
+      <a href="{% url 'product-edit' pk=product.pk %}" class="btn-edit">✏️ Edit Product</a>
+      <a href="{% url 'product-delete' pk=product.pk %}" class="btn-delete">🗑️ Delete Product</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

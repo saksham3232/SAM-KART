@@ -1,0 +1,248 @@
+{% extends 'seller/basic.html' %}
+{% load static %}
+
+{% block title %}My Sales{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+
+  .order-container {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .order-card {
+    margin-bottom: 40px;
+    padding: 25px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e3f2fd, #ffffff);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .order-card h5 {
+    color: #4e54c8;
+    font-weight: bold;
+  }
+
+  .status-timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 25px 0;
+    padding: 10px 0;
+  }
+
+  .status-timeline::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 8%;
+    right: 8%;
+    height: 4px;
+    background: #ccc;
+    z-index: 0;
+    transition: background 0.3s ease;
+  }
+
+  .status-step {
+    text-align: center;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .status-circle {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+    background: #ccc;
+    color: white;
+    font-weight: bold;
+    margin: 0 auto 8px auto;
+    transition: 0.3s ease;
+  }
+
+  .status-active .status-circle {
+    background: #4e54c8;
+  }
+
+  .status-label {
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  .product-list {
+    margin-top: 20px;
+    padding-left: 15px;
+  }
+
+  .product-list li:not(:last-child) {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .product-info {
+    flex: 1;
+  }
+
+  .view-btn {
+    background-color: #4e54c8;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .view-btn:hover {
+    background-color: #3639a0;
+    transform: scale(1.05);
+    text-decoration: none;
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .status-timeline {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .status-step {
+      margin-bottom: 20px;
+    }
+
+    .status-timeline::before {
+      top: auto;
+      height: auto;
+      left: 50%;
+      width: 4px;
+      bottom: 8%;
+      top: 8%;
+      transform: translateX(-50%);
+    }
+
+    .product-list li:not(:last-child) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .view-btn {
+      margin-top: 5px;
+    }
+  }
+
+  .status-timeline.status-2::before {
+    background: linear-gradient(to right, #4e54c8 0%, #4e54c8 33%, #ccc 33%);
+  }
+
+  .status-timeline.status-3::before {
+    background: linear-gradient(to right, #4e54c8 0%, #4e54c8 66%, #ccc 66%);
+  }
+
+  .status-timeline.status-4::before {
+    background: #4e54c8;
+  }
+
+  .subtotal-line {
+    justify-content: flex-start !important;
+    font-weight: bold;
+    border: none;
+    margin-top: 10px;
+  }
+
+  .order-cancelled {
+    background: linear-gradient(135deg, #ffe5e5, #ffffff);
+    border: 2px solid #e74c3c;
+  }
+
+  .order-delivered {
+    background: linear-gradient(135deg, #e6ffed, #ffffff);
+    border: 2px solid #27ae60;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="order-container">
+  <h2 class="text-center mb-5" style="color: #4e54c8;">📦 Orders Containing Your Products</h2>
+
+  {% if order_map %}
+    {% for order, items in order_map.items %}
+      <div class="order-card {% if order.status == 5 %}order-cancelled{% elif order.status == 4 %}order-delivered{% endif %}">
+        <h5>Order ID: {{ order.order_id }}</h5>
+        <h5>Transaction ID: {{ order.razorpay_payment_id }}</h5>
+
+        <p><strong>Customer Name:</strong> {{ order.user.name }}</p>
+        <p><strong>Customer Email:</strong> {{ order.user.email }}</p>
+        <p><strong>Phone:</strong> {{ order.user.phone }}</p>
+        <p><strong>Address:</strong> {{ order.user.customeradditional.get_full_address }}</p>
+
+        <p><strong>Order Date & Time:</strong> {{ order.datetime_of_payment|date:"M d, Y, h:i A" }}</p>
+        <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+
+        <!-- Timeline -->
+        <div class="status-timeline status-{{ order.status }}">
+          <div class="status-step {% if order.status >= 1 %}status-active{% endif %}">
+            <div class="status-circle">1</div>
+            <div class="status-label">Not Packed</div>
+          </div>
+          <div class="status-step {% if order.status >= 2 %}status-active{% endif %}">
+            <div class="status-circle">2</div>
+            <div class="status-label">Ready to Ship</div>
+          </div>
+          <div class="status-step {% if order.status >= 3 %}status-active{% endif %}">
+            <div class="status-circle">3</div>
+            <div class="status-label">Shipped</div>
+          </div>
+          <div class="status-step {% if order.status == 4 %}status-active{% endif %}">
+            <div class="status-circle">4</div>
+            <div class="status-label">Delivered</div>
+          </div>
+        </div>
+
+        <!-- Seller's Products -->
+        <strong>Your Products in this order:</strong>
+        <ul class="product-list">
+          {% for item in items %}
+            <li>
+              <div class="product-info">
+                <a href="{% url 'productdetail' pk=item.product.pk %}" style="text-decoration: none; color: #4e54c8; font-weight: bold;">
+                  {{ item.product.product_name }}
+                </a>
+                — ₹{{ item.price }} × {{ item.quantity }} = ₹{{ item.subtotal }}
+              </div>
+              <a href="{% url 'productdetail' pk=item.product.pk %}" class="view-btn">View Product</a>
+            </li>
+          {% endfor %}
+          <li class="subtotal-line">
+            <strong>Subtotal (your products):</strong>&nbsp;₹{{ order.grand_total }}
+          </li>
+        </ul>
+
+        {% if order.status == 5 %}
+          <p style="color: red; font-weight: bold;">Order Cancelled</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-center">No orders yet for your products.</p>
+  {% endif %}
+</div>
+{% endblock %}

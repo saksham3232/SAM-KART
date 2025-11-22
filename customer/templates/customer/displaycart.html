@@ -1,0 +1,195 @@
+{% extends 'customer/basic.html' %}
+{% load static %}
+{% load hosts %}
+{% load myfilters %}
+
+{% block title %}Cart{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background: linear-gradient(to right, #f4f6f9, #ffffff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cart-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+  }
+
+  .cart-header {
+    text-align: center;
+    font-size: 3rem;
+    color: #4e54c8;
+    margin-bottom: 40px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(78, 84, 200, 0.2);
+  }
+
+  .cart-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* Always 4 columns */
+    gap: 24px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 992px) {
+    .cart-grid {
+      grid-template-columns: repeat(2, 1fr);  /* 2 columns for tablets */
+    }
+  }
+
+  @media (max-width: 600px) {
+    .cart-grid {
+      grid-template-columns: 1fr;  /* Single column for small screens */
+    }
+  }
+
+
+
+  ..cart-card {
+    width: 100%;
+    max-width: 260px; 
+    background: linear-gradient(135deg, #e3f2fd, #ffffff);
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+  }
+
+  .cart-card:hover {
+    transform: rotateY(8deg) rotateX(4deg) scale(1.03);
+  }
+
+  .cart-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: white;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .cart-card h3 {
+    font-size: 1.2rem;
+    color: #4e54c8;
+    margin: 0 0 10px;
+  }
+
+  .cart-price,
+  .cart-quantity {
+    font-size: 1rem;
+    margin: 4px 0;
+    color: #333;
+  }
+
+  .cart-form {
+    margin-top: 10px;
+  }
+
+  .cart-form input[type="text"] {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 120px;
+    font-size: 0.95rem;
+    margin-right: 6px;
+  }
+
+  .btn-card {
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+    box-shadow: 0 4px 10px rgba(78, 84, 200, 0.3);
+  }
+
+  .btn-card:hover {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    transform: scale(1.05);
+  }
+
+  .empty-cart {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #888;
+    margin-top: 60px;
+  }
+
+  .checkout-form {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .checkout-form button {
+    background: linear-gradient(to right, #43e97b, #38f9d7);
+    color: #fff;
+    padding: 12px 30px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .checkout-form button:hover {
+    background: linear-gradient(to right, #f857a6, #ff5858);
+    transform: scale(1.05);
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="cart-container">
+  <h1 class="cart-header">Your Cart</h1>
+
+  {% if cart %}
+  <div class="cart-grid">
+    {% for i in cart %}
+      <div class="cart-card">
+        <img src="/media/{{ i.product.image }}" alt="{{ i.product.product_name }}">
+        <h3>{{ i.product.product_name }}</h3>
+        <p class="cart-price">Price: ₹{{ i.product.price }}</p>
+        <p class="cart-quantity">Quantity: {{ i.quantity }}</p>
+
+        <form class="cart-form" method="POST" action="{% host_url 'updatecart' pk=i.product_in_cart_id host 'www' %}">
+          {% csrf_token %}
+          <input type="text" name="quantity" placeholder="New Qty">
+          <button class="btn-card" type="submit">Update</button>
+        </form>
+
+        <form method="POST" action="{% host_url 'deletefromcart' pk=i.product_in_cart_id host 'www' %}">
+          {% csrf_token %}
+          <button class="btn-card" type="submit">Remove</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="checkout-form">
+    <form method="POST" action="/payment/">
+      {% csrf_token %}
+      <button type="submit">Proceed to Payment</button>
+    </form>
+  </div>
+
+  {% else %}
+    <p class="empty-cart">🛒 Your cart is currently empty.</p>
+  {% endif %}
+</div>
+{% endblock %}

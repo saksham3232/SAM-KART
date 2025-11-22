@@ -1,0 +1,120 @@
+{% extends 'customer/basic.html' %}
+{% load static %}
+
+{% block title %}Payment Failed{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    padding-bottom: 3rem;
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    transform: rotateY(10deg);
+    transition: transform 0.5s ease;
+  }
+
+  .hero h1:hover {
+    transform: rotateY(0deg) scale(1.05);
+  }
+
+  .fail-section {
+    background-color: white;
+    padding: 60px 20px;
+    margin: 40px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .fail-section:hover {
+    transform: scale(1.01);
+  }
+
+  .fail-section h2 {
+    color: #d9534f;
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+
+  .fail-section h3 {
+    font-weight: normal;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .fail-icon {
+    font-size: 50px;
+    color: #d9534f;
+    margin-bottom: 20px;
+    animation: shake 0.5s;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+  }
+
+  .mainmessage {
+    font-size: 1rem;
+    color: #555;
+  }
+
+  footer {
+    padding: 40px 20px;
+    background-color: #222;
+    color: #aaa;
+    text-align: center;
+    position: relative;
+    clear: both;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="hero">
+  <h1>Payment Failed</h1>
+</div>
+
+<div class="container fail-section">
+  <div class="fail-icon">❌</div>
+  <h2>Oops! Something went wrong.</h2>
+  <h3>Sorry! Your payment has failed. Please try again.</h3>
+
+  <p class="mainmessage">
+    In case your money has been deducted, it will be auto-refunded within 7–10 business days.
+  </p>
+  <br>
+  <p class="mainmessage">
+    Thank you for choosing us. You can contact us anytime for queries or support.
+  </p>
+</div>
+
+<footer>
+  <p>&copy; 2025 Saksham Maurya. All rights reserved.</p>
+</footer>
+{% endblock %}
+
+{% block js %}
+<script>
+  // Optional: Auto redirect after delay or toast notifications
+</script>
+{% endblock %}

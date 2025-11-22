@@ -1,0 +1,145 @@
+{% extends 'customer/basic.html' %}
+{% load static %}
+{% load myfilters %}
+
+{% block title %}
+Cancel Order
+{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background: linear-gradient(135deg, #c3ec52 0%, #0ba29d 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .form-wrapper {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 1.5rem 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-wrapper h1 {
+    text-align: center;
+    color: #1c1c1c;
+    font-size: 2rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+
+  .form-wrapper h2 {
+    text-align: center;
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .login-labels {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 9px;
+    margin-top: 4px;
+    border: 1.5px solid #dee2e6;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #00b894;
+    box-shadow: 0 0 4px rgba(0, 184, 148, 0.4);
+    background-color: #fff;
+  }
+
+  .btn-danger {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    border: none;
+    padding: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+
+  .btn-danger:hover {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    transform: scale(1.02);
+  }
+
+  .btn-danger:active {
+    transform: scale(0.96);
+    background: linear-gradient(135deg, #e67e22, #d35400);
+  }
+
+  .btn-secondary {
+    display: block;
+    margin-top: 12px;
+    text-align: center;
+    background: #95a5a6;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.25s ease;
+  }
+
+  .btn-secondary:hover {
+    background: #7f8c8d;
+  }
+
+  .errorlist {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 5px;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="form-wrapper">
+  <h1>Maurya Shop</h1>
+  <h2>Cancel Order #{{ order.order_id }}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+      <label for="{{ field.id_for_label }}" class="login-labels">{{ field.label }}</label>
+      {{ field.errors }}
+      {{ field|addclass:'form-control' }}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
+    <a href="{% url 'orders' %}" class="btn btn-secondary">Back</a>
+  </form>
+</div>
+{% endblock %}

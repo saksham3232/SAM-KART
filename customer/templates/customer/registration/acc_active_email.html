@@ -1,0 +1,13 @@
+{% autoescape off %}
+Hi {{ user.name }},
+
+Thanks for signing up on MauryaShop!
+
+To activate your account, click the link below:
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+If you didn't sign up, ignore this email.
+
+Thanks,  
+MauryaShop Team
+{% endautoescape %}

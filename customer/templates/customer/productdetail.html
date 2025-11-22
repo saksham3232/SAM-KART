@@ -1,0 +1,141 @@
+{% extends 'customer/basic.html' %}
+{% load hosts %}
+{% load static %}
+
+{% block title %}
+  {{ product.product_name }}
+{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .product-detail-container {
+    max-width: 1200px;
+    margin: 80px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+  }
+
+  .product-image {
+    flex: 1 1 40%;
+    max-width: 500px;
+  }
+
+  .product-image img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: #fff;
+  }
+
+  .product-details {
+    flex: 1 1 50%;
+    background: linear-gradient(135deg, #ffffff, #f1f3f8);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .product-details h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #4e54c8;
+  }
+
+  .price {
+    font-size: 1.5rem;
+    color: #28a745;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .product-details p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .btn-buy {
+    display: inline-block;
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    color: white !important;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none !important;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-buy:hover {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    transform: scale(1.05);
+    color: white !important;
+    text-decoration: none !important;
+  }
+
+  @media (max-width: 768px) {
+    .product-detail-container {
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .product-image,
+    .product-details {
+      width: 100%;
+    }
+
+    .product-details {
+      padding: 20px;
+    }
+  }
+  .meta-info {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .meta-info p {
+    margin: 6px 0;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="product-detail-container">
+  <div class="product-image">
+    <img src="/media/{{ product.image }}" alt="{{ product.product_name }}">
+  </div>
+
+  <div class="product-details">
+    <h1>{{ product.product_name }}</h1>
+    <div class="meta-info"><strong>Brand:</strong> {{ product.brand }}</div>
+    <div class="price">₹{{ product.price }}</div>
+
+    {% if product.desc %}
+      <p>{{ product.desc }}</p>
+    {% else %}
+      <p>No description provided for this product.</p>
+    {% endif %}
+
+    <a class="btn-buy" href="{% host_url 'addtocart' id=product.product_id host 'www' %}?next={{ request.get_full_path }}">Add to Cart</a>
+
+    <div class="meta-info">
+      <p><strong>Seller:</strong> {{ product.seller.name }}</p>
+      <p><strong>Date Added:</strong> {{ product.date_added|date:"F d, Y" }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

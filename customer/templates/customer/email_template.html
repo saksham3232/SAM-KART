@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Form Submission</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+    }
+
+    .email-wrapper {
+      padding: 30px 15px;
+      background-color: #f4f6f9;
+    }
+
+    .email-content {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .email-header {
+      background: linear-gradient(90deg, #4e54c8, #8f94fb);
+      color: #fff;
+      padding: 20px 30px;
+    }
+
+    .email-header h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .email-body {
+      padding: 30px;
+    }
+
+    .email-body p {
+      font-size: 16px;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #4e54c8;
+    }
+
+    .reply-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4e54c8;
+      color: #fff !important;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .reply-button:hover {
+      background-color: #3c40b5;
+    }
+
+    .footer {
+      padding: 20px 30px;
+      text-align: center;
+      font-size: 13px;
+      background-color: #f9f9f9;
+      color: #888;
+    }
+
+    @media screen and (max-width: 600px) {
+      .email-body {
+        padding: 20px;
+      }
+      .email-header, .footer {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-wrapper">
+    <div class="email-content">
+      <div class="email-header">
+        <h2>📩 New Contact Submission Received</h2>
+      </div>
+      <div class="email-body">
+        <p><span class="label">Name:</span> {{ name }}</p>
+        <p><span class="label">Email:</span> {{ email }}</p>
+        <p><span class="label">Phone:</span> {{ phone }}</p>
+        <p><span class="label">Query:</span><br>{{ query }}</p>
+        <p><span class="label">Submitted At:</span> {{ timestamp }}</p>
+
+        <!-- Reply button -->
+        <a href="mailto:{{ email }}" class="reply-button">Reply to User</a>
+      </div>
+      <div class="footer">
+        This is an automated message from your Django Contact Form system.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

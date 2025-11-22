@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load hosts %}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
+
+  <title>{% block title %}Default Title{% endblock %}</title>
+
+  <style>
+    .navbar {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      min-height: 60px;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #007bff !important;
+    }
+
+    .btn-secondary.dropdown-toggle {
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      border: none;
+      color: #000;
+      font-weight: 600;
+    }
+
+    .btn-secondary.dropdown-toggle:hover {
+      background: linear-gradient(135deg, #ff6ec4, #7873f5);
+      color: #fff;
+    }
+
+    .custom-alert {
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    .custom-alert .close {
+      font-size: 1.25rem;
+      color: #000;
+      opacity: 0.6;
+    }
+
+    .custom-alert .close:hover {
+      opacity: 1;
+    }
+
+    .btn-signup {
+      background-image: linear-gradient(135deg, #43e97b, #38f9d7);
+      color: #fff !important;
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-signup:hover {
+      background-image: linear-gradient(135deg, #38f9d7, #43e97b);
+      color: #000 !important;
+      transform: scale(1.03);
+    }
+
+    .btn-login {
+      background-image: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff !important;
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-login:hover {
+      background-image: linear-gradient(135deg, #764ba2, #667eea);
+      color: #fff !important;
+      transform: scale(1.03);
+    }
+  </style>
+
+  {% block css %}{% endblock %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container-fluid px-4">
+      <!-- Left: Brand -->
+      <a class="navbar-brand font-weight-bold" href="/">MauryaShop</a>
+
+      {% if request.path != '/' %}
+        <button class="btn btn-outline-primary btn-sm font-weight-bold ml-2 d-none d-lg-inline-block" onclick="window.history.back()">
+          &larr; Back
+        </button>
+      {% endif %}
+
+      <!-- Toggler -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapse Content -->
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Center: Nav Links (Column in mobile) -->
+        <ul class="navbar-nav flex-column flex-lg-row mr-lg-auto mt-3 mt-lg-0">
+          <li class="nav-item{% if request.path == '/' %} active{% endif %}">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="{% host_url 'listproducts' host 'www' %}">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% host_url 'displaycart' host 'www' %}">Cart</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% host_url 'orders' host 'www' %}">Orders</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% host_url 'contactclass' host 'www' %}">Contact Us</a></li>
+        </ul>
+
+        <!-- Right: Account / Auth -->
+        <div class="ml-lg-auto text-right mt-3 mt-lg-0">
+          {% if request.user.is_authenticated %}
+            <div class="font-weight-bold text-dark small">
+              {{ request.user.name }}<br>
+              <span class="text-muted">{{ request.user.email }}</span>
+            </div>
+            <div class="dropdown mt-2">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-toggle="dropdown" aria-expanded="false">
+                Account
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <li>
+                  <form action="{% host_url 'password_change' host 'www' %}">
+                    {% csrf_token %}
+                    <button class="dropdown-item">Change Password</button>
+                  </form>
+                  <form method="post" action="{% host_url 'logout' host 'www' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item">Logout</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          {% else %}
+            <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
+              <a class="btn btn-signup mb-2 mb-sm-0 mr-sm-2 px-4 py-2 font-weight-bold" href="{% host_url 'signup' host 'www' %}">
+                Sign Up
+              </a>
+              <a class="btn btn-login px-4 py-2 font-weight-bold" href="{% host_url 'login' host 'www' %}">
+                Login
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {% if messages %}
+    <div class="container mt-3">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show custom-alert" role="alert">
+          {{ message|safe }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% block body %}{% endblock %}
+
+  <!-- Bootstrap JS & jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+
+  {% block js %}{% endblock %}
+</body>
+</html>
