@@ -814,6 +814,8 @@ class GenerateInvoice(View):
             'name': order_db.user.name,
             'order': order_db,
             'amount': order_db.total_amount,
+            'phone': order_db.user.phone,
+            'address': order_db.user.customeradditional.get_full_address,
         }
         pdf = render_to_pdf('customer/payment/invoice.html', data)
         # return HttpResponse(pdf, content_type='application/pdf')
