@@ -7,189 +7,439 @@
 
 {% block css %}
 <style>
-  body {
-    background: linear-gradient(to right, #f4f6f9, #ffffff);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-    margin: 0;
-    padding: 0;
+:root {
+  --primary: #4f46e5;
+  --primary-soft: #eef2ff;
+  --primary-dark: #4338ca;
+  --accent: #10b981;
+  --danger: #ef4444;
+  --bg: #f3f4f6;
+  --card-bg: #ffffff;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.10);
+  --shadow-hover: 0 18px 40px rgba(15, 23, 42, 0.18);
+}
+
+/* Global */
+body {
+  background: radial-gradient(circle at top, #eef2ff 0, #f9fafb 40%, #f3f4f6 100%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.cart-container {
+  max-width: 1240px;
+  margin: 40px auto 60px;
+  padding: 0 16px;
+}
+
+/* Header */
+.cart-header {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.cart-header-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.03em;
+}
+
+.cart-header-subtitle {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Layout: grid + summary */
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(260px, 1.1fr);
+  gap: 22px;
+  align-items: flex-start;
+}
+
+/* Cart grid */
+.cart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+/* Card */
+.cart-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 14px 14px 16px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(129, 140, 248, 0.7);
+}
+
+.cart-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at center, #ffffff 0, #f3f4f6 55%, #e5e7eb 100%);
+  margin-bottom: 10px;
+}
+
+/* Card content */
+.cart-card h3 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0 0 4px;
+}
+
+.cart-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.cart-price {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.98rem;
+}
+
+.cart-quantity {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* Item total in card */
+.item-total {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  margin: 8px 0;
+  padding: 10px 0;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  border-radius: 12px;
+}
+
+/* Forms */
+.cart-form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.cart-form input[type="text"], .cart-form input[type="number"] {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 2px solid #d1d5db;
+  font-size: 0.9rem;
+  width: 80px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cart-form input[type="text"]:focus, .cart-form input[type="number"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  background: white;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.btn-chip {
+  border-radius: 999px;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+}
+
+.btn-ghost {
+  background: #f9fafb;
+  color: var(--text-main);
+  border: 2px solid #e5e7eb;
+}
+
+.btn-ghost:hover {
+  background: #fee2e2;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* Summary card */
+.summary-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow-soft);
+  padding: 28px 24px 32px;
+  border: 2px solid rgba(226, 232, 240, 0.9);
+  position: sticky;
+  top: 80px;
+}
+
+.summary-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text-main);
+  text-align: center;
+}
+
+.summary-items {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  padding: 14px 0;
+  color: var(--text-muted);
+  border-bottom: 2px dashed #e5e7eb;
+}
+
+/* GRAND TOTAL - PROMINENT */
+.grand-total {
+  margin-top: 24px;
+  padding: 24px;
+  background: linear-gradient(135deg, var(--accent), #059669);
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.3);
+}
+
+.grand-total-label {
+  font-size: 0.9rem;
+  opacity: 0.95;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.grand-total-amount {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.summary-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 20px 0;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  color: #047857;
+  backdrop-filter: blur(10px);
+}
+
+/* Checkout button */
+.checkout-form {
+  margin-top: 28px;
+}
+
+.checkout-form button {
+  width: 100%;
+  border-radius: 999px;
+  border: none;
+  padding: 18px 28px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #ffffff;
+  box-shadow: 0 16px 36px rgba(22, 163, 74, 0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.checkout-form button:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  box-shadow: 0 24px 48px rgba(22, 163, 74, 0.5);
+}
+
+/* Empty state */
+.empty-cart {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-top: 70px;
+}
+
+.empty-cart-icon {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .cart-layout {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .cart-container {
-    max-width: 1200px;
-    margin: 60px auto;
-    padding: 0 20px;
+  .summary-card {
+    position: static;
   }
-
-  .cart-header {
-    text-align: center;
-    font-size: 3rem;
-    color: #4e54c8;
-    margin-bottom: 40px;
-    font-weight: bold;
-    text-shadow: 0 2px 4px rgba(78, 84, 200, 0.2);
-  }
-
-  .cart-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);  /* Always 4 columns */
-    gap: 24px;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  @media (max-width: 992px) {
-    .cart-grid {
-      grid-template-columns: repeat(2, 1fr);  /* 2 columns for tablets */
-    }
-  }
-
-  @media (max-width: 600px) {
-    .cart-grid {
-      grid-template-columns: 1fr;  /* Single column for small screens */
-    }
-  }
-
-
-
-  ..cart-card {
-    width: 100%;
-    max-width: 260px; 
-    background: linear-gradient(135deg, #e3f2fd, #ffffff);
-    border-radius: 16px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: transform 0.5s ease;
-    cursor: pointer;
-  }
-
-  .cart-card:hover {
-    transform: rotateY(8deg) rotateX(4deg) scale(1.03);
-  }
-
-  .cart-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: contain;
-    border-radius: 12px;
-    background: white;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-
-  .cart-card h3 {
-    font-size: 1.2rem;
-    color: #4e54c8;
-    margin: 0 0 10px;
-  }
-
-  .cart-price,
-  .cart-quantity {
-    font-size: 1rem;
-    margin: 4px 0;
-    color: #333;
-  }
-
-  .cart-form {
-    margin-top: 10px;
-  }
-
-  .cart-form input[type="text"] {
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    width: 120px;
-    font-size: 0.95rem;
-    margin-right: 6px;
-  }
-
-  .btn-card {
-    background: linear-gradient(135deg, #4e54c8, #8f94fb);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 8px;
-    box-shadow: 0 4px 10px rgba(78, 84, 200, 0.3);
-  }
-
-  .btn-card:hover {
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    transform: scale(1.05);
-  }
-
-  .empty-cart {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #888;
-    margin-top: 60px;
-  }
-
-  .checkout-form {
-    margin-top: 40px;
-    text-align: center;
-  }
-
-  .checkout-form button {
-    background: linear-gradient(to right, #43e97b, #38f9d7);
-    color: #fff;
-    padding: 12px 30px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 25px;
-    font-weight: bold;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-
-  .checkout-form button:hover {
-    background: linear-gradient(to right, #f857a6, #ff5858);
-    transform: scale(1.05);
-  }
+}
 </style>
 {% endblock %}
 
 {% block body %}
 <div class="cart-container">
-  <h1 class="cart-header">Your Cart</h1>
-
-  {% if cart %}
-  <div class="cart-grid">
-    {% for i in cart %}
-      <div class="cart-card">
-        <img src="/media/{{ i.product.image }}" alt="{{ i.product.product_name }}">
-        <h3>{{ i.product.product_name }}</h3>
-        <p class="cart-price">Price: ₹{{ i.product.price }}</p>
-        <p class="cart-quantity">Quantity: {{ i.quantity }}</p>
-
-        <form class="cart-form" method="POST" action="{% host_url 'updatecart' pk=i.product_in_cart_id host 'www' %}">
-          {% csrf_token %}
-          <input type="text" name="quantity" placeholder="New Qty">
-          <button class="btn-card" type="submit">Update</button>
-        </form>
-
-        <form method="POST" action="{% host_url 'deletefromcart' pk=i.product_in_cart_id host 'www' %}">
-          {% csrf_token %}
-          <button class="btn-card" type="submit">Remove</button>
-        </form>
-      </div>
-    {% endfor %}
+  <div class="cart-header">
+    <h1 class="cart-header-title">Your Cart</h1>
+    <p class="cart-header-subtitle">
+      Review your items, update quantities, or move to checkout.
+    </p>
   </div>
 
-  <div class="checkout-form">
-    <form method="POST" action="/payment/">
-      {% csrf_token %}
-      <button type="submit">Proceed to Payment</button>
-    </form>
+  {% if cart %}
+  <div class="cart-layout">
+    <!-- Left: cart items -->
+    <div>
+      <div class="cart-grid">
+        {% for i in cart %}
+        <div class="cart-card" data-price="{{ i.product.price }}" data-cart-id="{{ i.product_in_cart_id }}">
+          <img src="/media/{{ i.product.image }}" alt="{{ i.product.product_name }}">
+          <h3>{{ i.product.product_name }}</h3>
+          <div class="cart-meta">
+            <p class="cart-price">₹{{ i.product.price }}</p>
+            <p class="cart-quantity">Qty: {{ i.quantity }}</p>
+          </div>
+          
+          <div class="item-total" data-item-total="{{ i.product.price|multiply:i.quantity|floatformat:0 }}">
+            ₹{{ i.product.price|multiply:i.quantity|floatformat:0 }}
+          </div>
+
+          <form class="cart-form" method="POST" action="{% host_url 'updatecart' pk=i.product_in_cart_id host 'www' %}">
+            {% csrf_token %}
+            <input type="number" name="quantity" min="1" value="{{ i.quantity }}" class="qty-input">
+            <button class="btn-chip btn-primary" type="submit">Update</button>
+          </form>
+
+          <div class="card-actions">
+            <form method="POST" action="{% host_url 'deletefromcart' pk=i.product_in_cart_id host 'www' %}">
+              {% csrf_token %}
+              <button class="btn-chip btn-ghost" type="submit">Remove</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Right: summary with LIVE TOTAL -->
+    <aside class="summary-card">
+      <div class="summary-title">Order Summary</div>
+      
+      <div class="summary-items">
+        <span>Total Items</span>
+        <span id="item-count">{{ cart|length }}</span>
+      </div>
+      
+      <div class="grand-total">
+        <div class="grand-total-label">Grand Total</div>
+        <div class="grand-total-amount" id="grand-total">₹0</div>
+      </div>
+      
+      <div class="summary-badge">
+        <span>✓</span>
+        <span>Secure payment powered by our gateway</span>
+      </div>
+
+      <div class="checkout-form">
+        <form method="POST" action="/payment/">
+          {% csrf_token %}
+          <button type="submit">Proceed to Payment</button>
+        </form>
+      </div>
+    </aside>
   </div>
 
   {% else %}
-    <p class="empty-cart">🛒 Your cart is currently empty.</p>
+  <div class="empty-cart">
+    <div class="empty-cart-icon">🛒</div>
+    <p>Your cart is currently empty.</p>
+  </div>
   {% endif %}
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Calculate initial total
+  calculateTotal();
+  
+  // Update total when quantity changes
+  document.querySelectorAll('.qty-input').forEach(input => {
+    input.addEventListener('input', calculateTotal);
+  });
+  
+  function calculateTotal() {
+    let total = 0;
+    let itemCount = 0;
+    
+    document.querySelectorAll('.cart-card').forEach(card => {
+      const price = parseFloat(card.dataset.price) || 0;
+      const qtyInput = card.querySelector('.qty-input');
+      const qty = parseInt(qtyInput.value) || 0;
+      
+      const itemTotal = price * qty;
+      card.querySelector('.item-total').textContent = '₹' + itemTotal.toLocaleString();
+      
+      total += itemTotal;
+      if (qty > 0) itemCount++;
+    });
+    
+    // Update grand total
+    document.getElementById('grand-total').textContent = '₹' + total.toLocaleString();
+    document.getElementById('item-count').textContent = itemCount;
+  }
+});
+</script>
 {% endblock %}
