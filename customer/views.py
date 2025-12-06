@@ -258,12 +258,12 @@ class ListProducts(ListView):
     context_object_name = 'product'
     paginate_by = 2
 
-
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-import json
-from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Q
-PRODUCTS_PER_PAGE = 8
+############################################################################
+# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# import json
+# from django.core.serializers.json import DjangoJSONEncoder
+# from django.db.models import Q
+# PRODUCTS_PER_PAGE = 8
 
 
 # # this is apply filters on current page products
@@ -317,56 +317,84 @@ PRODUCTS_PER_PAGE = 8
 
 # this is apply filters on all products
 # Uncomment this function if you want to use it instead of the above one
+########################################################################
+
+from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage
+from django.db.models import Q
+from django.http import JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
+from .models import Product
+
+PRODUCTS_PER_PAGE = 4  # adjust as needed
+
 def listProducts(request):
+    # Get filter parameters
     ordering = request.GET.get('ordering', "")
     search = request.GET.get('search', "")
     price = request.GET.get('price', "")
+    category = request.GET.get('category', "")
 
-    product = Product.objects.all()
+    # Start with all products
+    product_qs = Product.objects.all()
 
+    # Apply search
     if search:
-        product = product.filter(Q(product_name__icontains=search) | Q(brand__icontains=search))
+        product_qs = product_qs.filter(
+            Q(product_name__icontains=search) | Q(brand__icontains=search)
+        )
 
-    if ordering:
-        product = product.order_by(ordering)
+    # Apply category filter
+    if category and category != "ALL":
+        product_qs = product_qs.filter(category=category)
 
+    # Apply price filter
     if price:
-        product = product.filter(price__lt=price)
+        try:
+            price_val = float(price)
+            product_qs = product_qs.filter(price__lt=price_val)
+        except ValueError:
+            pass
 
-    # Pagination AFTER filtering and ordering
+    # Apply sorting
+    if ordering:
+        product_qs = product_qs.order_by(ordering)
+    else:
+        product_qs = product_qs.order_by('-date_added')  # default sorting
+
+    # Pagination
     page = request.GET.get('page', 1)
-    product_paginator = Paginator(product, PRODUCTS_PER_PAGE)
+    paginator = Paginator(product_qs, PRODUCTS_PER_PAGE)
     try:
-        product = product_paginator.page(page)
+        products = paginator.page(page)
     except EmptyPage:
-        product = product_paginator.page(product_paginator.num_pages)
+        products = paginator.page(paginator.num_pages)
     except:
-        product = product_paginator.page(1)
+        products = paginator.page(1)
 
     return render(request, 'customer/listproducts.html', {
-        'product': product,
-        'page_obj': product,
+        'product': products,
+        'page_obj': products,
         'is_paginated': True,
-        'paginator': product_paginator
+        'paginator': paginator
     })
-
 
 
 def suggestionApi(request):
     if 'term' in request.GET:
-        search = request.GET.get('term')
-        qs = Product.objects.filter(Q(product_name__icontains=search))[0:10]
-        titles = list()
-        for product in qs:
-            titles.append(product.product_name)
-        if len(qs) < 10:
-            length = 10 - len(qs)
-            qs2 = Product.objects.filter(Q(brand__icontains=search))[0:length]
-            for product in qs2:
-                titles.append(product.brand)
+        term = request.GET.get('term')
+        qs_name = Product.objects.filter(product_name__icontains=term)[:10]
+        titles = [p.product_name for p in qs_name]
+
+        if len(titles) < 10:
+            remaining = 10 - len(titles)
+            qs_brand = Product.objects.filter(brand__icontains=term)[:remaining]
+            titles.extend([p.brand for p in qs_brand])
+
         return JsonResponse(titles, safe=False, encoder=DjangoJSONEncoder)
 
 
+from django.views.generic import DetailView
 
 class ProductDetail(DetailView):
     model = Product

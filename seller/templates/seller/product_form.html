@@ -144,6 +144,10 @@
       <label for="{{ field.id_for_label }}" class="login-labels">{{ field.label }}</label>
       {{ field.errors }}
       {{ field|addclass:"form-control" }}
+      {# Optional hint for category #}
+      {% if field.name == "category" %}
+        <small style="color:#777;">Select one of: Electronics, Home, Fitness, Books, Toys, Furniture, Accessories, Health, Food, Stationery, Outdoor, Tools, Decor, Other.</small>
+      {% endif %}
     {% endfor %}
     <button type="submit" class="btn btn-primary">Save Product</button>
   </form>

@@ -218,6 +218,22 @@ class Contact(models.Model):
 
 
 class Product(models.Model):
+    CATEGORY_CHOICES = (
+        ("ELECTRONICS", "Electronics"),
+        ("HOME", "Home"),
+        ("FITNESS", "Fitness"),
+        ("BOOKS", "Books"),
+        ("TOYS", "Toys"),
+        ("FURNITURE", "Furniture"),
+        ("ACCESSORIES", "Accessories"),
+        ("HEALTH", "Health"),
+        ("FOOD", "Food"),
+        ("STATIONERY", "Stationery"),
+        ("OUTDOOR", "Outdoor"),
+        ("TOOLS", "Tools"),
+        ("DECOR", "Decor"),
+        ("OTHER", "Other"),
+    )
     seller = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
@@ -231,6 +247,11 @@ class Product(models.Model):
     price = models.FloatField()
     brand = models.CharField(max_length=1000, default='Unknown')
     date_added = models.DateTimeField(default=timezone.now)
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default="ELECTRONICS",
+    )
 
     class Meta:
         ordering = ['-price']
