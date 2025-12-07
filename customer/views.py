@@ -959,7 +959,7 @@ def handle_order_status_change(order, new_status):
 
 @login_required
 def my_orders(request):
-    orders = Order.objects.filter(user=request.user) \
+    orders = Order.objects.filter(user=request.user, payment_status=1) \
         .prefetch_related('productinorder_set__product') \
         .order_by('-datetime_of_payment')
 
