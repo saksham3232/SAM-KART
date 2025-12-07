@@ -204,7 +204,7 @@ from customer.views import handle_order_status_change
 def seller_orders(request):
     # Fetch all product-in-order items for this seller
     seller_items = ProductInOrder.objects.select_related('order', 'product')\
-    .filter(product__seller=request.user)\
+    .filter(product__seller=request.user, order__payment_status=1)\
     .order_by('-order__datetime_of_payment')  # or '-order__created_at'
 
     # Group items by order
