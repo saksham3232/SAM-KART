@@ -326,7 +326,7 @@ from django.http import JsonResponse
 from django.core.serializers.json import DjangoJSONEncoder
 from .models import Product
 
-PRODUCTS_PER_PAGE = 12  # adjust as needed
+PRODUCTS_PER_PAGE = 15  # adjust as needed
 
 def listProducts(request):
     # Get filter parameters
@@ -346,7 +346,7 @@ def listProducts(request):
 
     # Apply category filter
     if category and category != "ALL":
-        product_qs = product_qs.filter(category=category)
+        product_qs = product_qs.filter(categories__contains=category)
 
     # Apply price filter
     if price:

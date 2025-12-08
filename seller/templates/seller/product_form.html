@@ -3,14 +3,14 @@
 {% load myfilters %}
 
 {% block title %}
-{{ view.object.pk|yesno:"Edit Product,Add Product" }}
+  {{ view.object.pk|yesno:"Edit Product,Add Product" }}
 {% endblock %}
 
 {% block css %}
 <style>
   body {
     background: linear-gradient(135deg, #c3ec52 0%, #0ba29d 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
   }
@@ -26,8 +26,14 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .form-wrapper h1 {
@@ -133,23 +139,29 @@
   <h2>{{ view.object.pk|yesno:"Edit Product,Add Product" }}</h2>
 
   {% if form.non_field_errors %}
-    <div class="alert">
-      {{ form.non_field_errors }}
-    </div>
+    <div class="alert">{{ form.non_field_errors }}</div>
   {% endif %}
 
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+
     {% for field in form %}
       <label for="{{ field.id_for_label }}" class="login-labels">{{ field.label }}</label>
       {{ field.errors }}
-      {{ field|addclass:"form-control" }}
-      {# Optional hint for category #}
-      {% if field.name == "category" %}
-        <small style="color:#777;">Select one of: Electronics, Home, Fitness, Books, Toys, Furniture, Accessories, Health, Food, Stationery, Outdoor, Tools, Decor, Other.</small>
+
+      {% if field.name == "categories" %}
+        <div style="background: #f8f9fa; padding: 10px; border-radius: 6px">
+          {{ field }}
+          <small style="color: #777;">
+            Hold CTRL (Windows) or CMD (Mac) to select multiple categories.
+          </small>
+        </div>
+      {% else %}
+        {{ field|addclass:"form-control" }}
       {% endif %}
     {% endfor %}
-    <button type="submit" class="btn btn-primary">Save Product</button>
+
+    <button type="submit" class="btn-primary">Save Product</button>
   </form>
 
   <a href="{% url 'seller-dashboard' %}" class="back-link">← Back to Dashboard</a>

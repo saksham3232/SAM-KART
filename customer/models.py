@@ -219,6 +219,8 @@ class Contact(models.Model):
 
 class Product(models.Model):
     CATEGORY_CHOICES = (
+        ("FASHION", "Fashion"),
+        ("SPORTS", "Sports"),
         ("ELECTRONICS", "Electronics"),
         ("HOME", "Home"),
         ("FITNESS", "Fitness"),
@@ -247,11 +249,12 @@ class Product(models.Model):
     price = models.FloatField()
     brand = models.CharField(max_length=1000, default='Unknown')
     date_added = models.DateTimeField(default=timezone.now)
-    category = models.CharField(
-        max_length=20,
+    categories = MultiSelectField(
         choices=CATEGORY_CHOICES,
-        default="ELECTRONICS",
+        max_length=200,
+        blank=True,
     )
+
 
     class Meta:
         ordering = ['-price']
