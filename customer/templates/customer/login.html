@@ -1,9 +1,8 @@
 {% extends 'customer/basic.html' %}
 {% load static %}
 {% load myfilters %}
-{% block title %}
-Login
-{% endblock %}
+
+{% block title %}Login{% endblock %}
 
 {% block css %}
 <style>
@@ -95,6 +94,22 @@ Login
     background: linear-gradient(135deg, #00cec9, #6c5ce7);
   }
 
+  .forgot {
+    margin-top: 12px;
+    text-align: right;
+  }
+
+  .forgot a {
+    color: #0984e3;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .forgot a:hover {
+    text-decoration: underline;
+  }
+
   .errorlist {
     color: #e74c3c;
     font-size: 0.85rem;
@@ -121,7 +136,33 @@ Login
     {{ form.password.errors }}
     {{ form.password|addclass:'form-control'|addplaceholder:'Your Password' }}
 
+    <div class="forgot">
+      <a href="{% url 'reset_password' %}">Forgot Password?</a>
+    </div>
+
     <button type="submit" class="btn btn-primary">Login</button>
   </form>
 </div>
 {% endblock %}
+{% comment %} 
+
+<!-- Updated Django URLS -->
+# urls.py
+path('reset_password/', auth_views.PasswordResetView.as_view(
+    template_name="customer/registration/password_reset.html",
+    success_url=reverse_lazy("password_reset_done"),
+    email_template_name='customer/registration/forgot_password_email.html'
+), name="reset_password"),
+
+path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(
+    template_name="customer/registration/password_reset_sent.html"
+), name="password_reset_done"),
+
+path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+    template_name="customer/registration/password_reset_form.html",
+    success_url=reverse_lazy("password_reset_complete")
+), name="password_reset_confirm"),
+
+path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(
+    template_name="customer/registration/password_reset_done.html"
+), name="password_reset_complete"), {% endcomment %}
