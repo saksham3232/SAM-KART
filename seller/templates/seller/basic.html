@@ -37,9 +37,12 @@
       text-decoration: none;
     }
 
+    /* Blur / highlight for active nav */
     .nav-item.active .nav-link {
       color: #0b5ed7 !important;
-      background-color: rgba(13, 110, 253, 0.09);
+      background-color: rgba(13, 110, 253, 0.12);
+      box-shadow: 0 0 0 10px rgba(13, 110, 253, 0.08);
+      backdrop-filter: blur(6px);
     }
 
     .dropdown-menu a:hover {
@@ -169,15 +172,15 @@
         </li>
 
         {% if request.user.is_authenticated and 'Seller' in request.user.type %}
-          <li class="nav-item{% if request.path == '/seller/dashboard/' %} active{% endif %}">
+          <li class="nav-item{% if request.path == '/dashboard/' %} active{% endif %}">
             <a class="nav-link" href="{% host_url 'seller-dashboard' host 'services' %}">Seller Dashboard</a>
           </li>
-          <li class="nav-item{% if request.path == '/seller/orders/' %} active{% endif %}">
+          <li class="nav-item{% if request.path == '/orders/' %} active{% endif %}">
             <a class="nav-link" href="{% host_url 'seller-orders' host 'services' %}">Seller Orders</a>
           </li>
         {% endif %}
 
-        <li class="nav-item">
+        <li class="nav-item{% if request.path == '/contactus/' %} active{% endif %}">
           <a class="nav-link" href="{% host_url 'contactus' host 'services' %}">Contact Us</a>
         </li>
       </ul>

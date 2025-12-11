@@ -39,9 +39,12 @@
       text-decoration: none;
     }
 
+    /* BLUR / HIGHLIGHT FOR ACTIVE NAV */
     .nav-item.active .nav-link {
       color: #0b5ed7 !important;
-      background-color: rgba(13, 110, 253, 0.08);
+      background-color: rgba(13, 110, 253, 0.12);
+      box-shadow: 0 0 0 10px rgba(13, 110, 253, 0.08);
+      backdrop-filter: blur(6px);
     }
 
     .btn-secondary.dropdown-toggle {
@@ -148,16 +151,16 @@
           <li class="nav-item{% if request.path == '/' %} active{% endif %}">
             <a class="nav-link" href="/">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item{% if request.path == '/listproducts/' %} active{% endif %}">
             <a class="nav-link" href="{% host_url 'listproducts' host 'www' %}">Products</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item{% if request.path == '/displaycart/' %} active{% endif %}">
             <a class="nav-link" href="{% host_url 'displaycart' host 'www' %}">Cart</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item{% if request.path == '/orders/' %} active{% endif %}">
             <a class="nav-link" href="{% host_url 'orders' host 'www' %}">Orders</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item{% if request.path == '/contact/' or request.path == '/contactusclass/' %} active{% endif %}">
             <a class="nav-link" href="{% host_url 'contactclass' host 'www' %}">Contact Us</a>
           </li>
         </ul>
