@@ -4,28 +4,47 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+        crossorigin="anonymous" />
 
   <title>{% block title %}Seller{% endblock %}</title>
 
   <style>
     .navbar {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+      background: #ffffff;
+      min-height: 60px;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 0.03em;
     }
 
     .nav-link {
       font-weight: 500;
-      transition: color 0.3s ease;
+      font-size: 0.95rem;
+      padding: 0.45rem 0.85rem !important;
+      border-radius: 999px;
+      transition: color 0.25s ease, background-color 0.25s ease;
     }
 
     .nav-link:hover {
-      color: #007bff !important;
+      color: #0b5ed7 !important;
+      background-color: rgba(13, 110, 253, 0.06);
+      text-decoration: none;
+    }
+
+    .nav-item.active .nav-link {
+      color: #0b5ed7 !important;
+      background-color: rgba(13, 110, 253, 0.09);
     }
 
     .dropdown-menu a:hover {
-      background-color: #f1f1f1;
-      color: #007bff;
+      background-color: #f1f5f9;
+      color: #0b5ed7;
     }
 
     .btn-secondary.dropdown-toggle {
@@ -33,6 +52,8 @@
       border: none;
       color: #000;
       font-weight: 600;
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
     }
 
     .btn-secondary.dropdown-toggle:hover {
@@ -42,18 +63,18 @@
 
     .custom-alert {
       border-radius: 0.75rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      font-size: 1rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+      font-size: 0.95rem;
       font-weight: 500;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1rem;
-      animation: fadeInUp 0.5s ease-out;
+      padding: 0.9rem 1.4rem;
+      margin-bottom: 0.85rem;
+      animation: fadeInUp 0.4s ease-out;
       transition: all 0.3s ease-in-out;
     }
 
     .custom-alert .close {
-      font-size: 1.25rem;
-      color: #000;
+      font-size: 1.2rem;
+      color: #111827;
       opacity: 0.6;
       transition: opacity 0.2s;
     }
@@ -73,46 +94,47 @@
       }
     }
 
-    /* Custom SignUp & Login Button Styles */
     .btn-signup {
       background-image: linear-gradient(135deg, #43e97b, #38f9d7);
       color: #fff !important;
       border: none;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      border-radius: 999px;
+      box-shadow: 0 5px 16px rgba(16, 185, 129, 0.4);
+      transition: all 0.25s ease;
+      font-size: 0.9rem;
     }
 
     .btn-signup:hover {
       background-image: linear-gradient(135deg, #38f9d7, #43e97b);
-      color: #000 !important;
-      transform: scale(1.03);
+      color: #022c22 !important;
+      transform: translateY(-1px);
     }
 
     .btn-login {
       background-image: linear-gradient(135deg, #667eea, #764ba2);
       color: #fff !important;
       border: none;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      border-radius: 999px;
+      box-shadow: 0 5px 16px rgba(79, 70, 229, 0.4);
+      transition: all 0.25s ease;
+      font-size: 0.9rem;
     }
 
     .btn-login:hover {
       background-image: linear-gradient(135deg, #764ba2, #667eea);
       color: #fff !important;
-      transform: scale(1.03);
+      transform: translateY(-1px);
     }
 
     .dropdown-menu .dropdown-item {
       font-weight: 500;
       color: #212529;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .dropdown-menu .dropdown-item:hover {
-      background-color: #f1f1f1;
-      color: #007bff;
+      background-color: #f1f5f9;
+      color: #0b5ed7;
     }
 
     .navbar .btn,
@@ -126,33 +148,35 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand font-weight-bold" href="/">MauryaShop Seller</a>
+    <a class="navbar-brand" href="/">MauryaShop Seller</a>
 
     {% if request.path != '/' %}
-      <button class="btn btn-outline-primary btn-sm font-weight-bold ml-2 d-none d-lg-inline-block" onclick="window.history.back()">
+      <button class="btn btn-outline-primary btn-sm font-weight-bold ml-2 d-none d-lg-inline-block"
+              onclick="window.history.back()">
         &larr; Back
       </button>
     {% endif %}
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item{% if request.path == '/' %} active{% endif %}">
           <a class="nav-link" href="/">Home</a>
         </li>
+
         {% if request.user.is_authenticated and 'Seller' in request.user.type %}
           <li class="nav-item{% if request.path == '/seller/dashboard/' %} active{% endif %}">
             <a class="nav-link" href="{% host_url 'seller-dashboard' host 'services' %}">Seller Dashboard</a>
           </li>
-
           <li class="nav-item{% if request.path == '/seller/orders/' %} active{% endif %}">
             <a class="nav-link" href="{% host_url 'seller-orders' host 'services' %}">Seller Orders</a>
           </li>
         {% endif %}
+
         <li class="nav-item">
           <a class="nav-link" href="{% host_url 'contactus' host 'services' %}">Contact Us</a>
         </li>
@@ -169,7 +193,7 @@
                     id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
               Account
             </button>
-            <ul class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
               <li>
                 <form method="post" action="{% host_url 'logout' host 'services' %}">
                   {% csrf_token %}
@@ -180,11 +204,13 @@
           </div>
         </div>
       {% else %}
-        <div class="d-flex align-items-center mr-3">
-          <a class="btn btn-signup mr-2 px-4 py-2 font-weight-bold" href="{% host_url 'login' host 'services' %}?next={% host_url 'signupseller' host 'services' %}">
+        <div class="d-flex align-items-center mr-3 mt-2 mt-lg-0">
+          <a class="btn btn-signup mr-2 px-4 py-2 font-weight-bold"
+             href="{% host_url 'login' host 'services' %}?next={% host_url 'signupseller' host 'services' %}">
             Sign Up
           </a>
-          <a class="btn btn-login px-4 py-2 font-weight-bold" href="{% host_url 'sellerlogin' host 'services' %}">
+          <a class="btn btn-login px-4 py-2 font-weight-bold"
+             href="{% host_url 'sellerlogin' host 'services' %}">
             Login
           </a>
         </div>
@@ -206,16 +232,15 @@
   {% endif %}
 
   {% block body %}
-    {% block content %}
-    {% endblock %}
+    {% block content %}{% endblock %}
   {% endblock %}
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
+          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-    crossorigin="anonymous"></script>
+          integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+          crossorigin="anonymous"></script>
 
   {% block js %}{% endblock %}
 </body>

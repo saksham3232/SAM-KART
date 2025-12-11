@@ -24,7 +24,7 @@
 
   .hero h1 {
     font-size: 2.8rem;
-    font-weight: bold;
+    font-weight: 700;
     transform: rotateY(7deg);
     transition: transform 0.5s ease;
     margin-bottom: 0.8rem;
@@ -35,21 +35,24 @@
   }
 
   .hero p {
-    font-size: 1.18rem;
+    font-size: 1.15rem;
     margin-top: 10px;
     transform: translateZ(50px);
     letter-spacing: 0.01em;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .dashboard-btn {
-    margin-top: 30px;
+    margin-top: 26px;
     padding: 12px 32px;
-    font-size: 1.07rem;
+    font-size: 1.05rem;
     color: #fff;
     background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%);
     border: none;
     border-radius: 30px;
-    box-shadow: 0 4px 18px rgba(78,84,200,0.13);
+    box-shadow: 0 4px 18px rgba(78,84,200,0.18);
     cursor: pointer;
     transition: background 0.35s, transform 0.18s, box-shadow 0.25s;
     position: relative;
@@ -84,7 +87,7 @@
     background: linear-gradient(90deg, #5f72bd 0%, #9f9fed 100%);
     color: #fff;
     transform: scale(1.04);
-    box-shadow: 0 8px 28px rgba(78,84,200,0.13), 0 4px 14px rgba(143,148,251,0.13);
+    box-shadow: 0 8px 28px rgba(78,84,200,0.20), 0 4px 14px rgba(143,148,251,0.18);
   }
   .dashboard-btn:active {
     transform: scale(0.97);
@@ -94,22 +97,22 @@
     background-color: white;
     padding: 48px 22px;
     margin: 40px auto 60px auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.10);
     max-width: 1200px;
   }
 
   .about-section h2 {
-    font-size: 1.65rem;
-    margin-bottom: 19px;
+    font-size: 1.7rem;
+    margin-bottom: 18px;
     color: #4e54c8;
     font-weight: 600;
   }
 
   .about-section p {
-    font-size: 1.08rem;
-    line-height: 1.75;
-    margin-bottom: 18px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 16px;
   }
 
   .features-wrapper {
@@ -117,35 +120,41 @@
     flex-wrap: wrap;
     gap: 24px;
     justify-content: center;
-    margin: 38px 0 30px 0;
+    margin: 34px 0 26px 0;
   }
+
   .feature-card {
     background: linear-gradient(135deg, #e3f2fd, #ffffff);
     border-radius: 15px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+    box-shadow: 0 8px 18px rgba(15,23,42,0.08);
     width: 270px;
-    padding: 28px 18px;
+    padding: 26px 18px;
     text-align: center;
-    transition: transform 0.32s;
+    transition: transform 0.28s, box-shadow 0.28s;
   }
   .feature-card:hover {
-    transform: scale(1.045) translateY(-3px);
+    transform: scale(1.04) translateY(-3px);
+    box-shadow: 0 10px 26px rgba(79,70,229,0.22);
   }
   .feature-card h3 {
     color: #4e54c8;
-    margin-bottom: 10px;
-    font-size: 1.15rem;
+    margin-bottom: 9px;
+    font-size: 1.12rem;
     font-weight: 600;
   }
   .feature-card p {
-    font-size: 0.99rem;
+    font-size: 0.98rem;
     color: #444;
   }
 
   .stats-section {
     text-align: center;
-    margin: 48px 0 15px 0;
+    margin: 48px 0 20px 0;
     color: #4e54c8;
+  }
+  .stats-section h2 {
+    font-size: 1.7rem;
+    margin-bottom: 10px;
   }
   .stats-wrapper {
     display: flex;
@@ -156,19 +165,19 @@
   }
   .stat-card {
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(78,84,200,0.07);
-    width: 150px;
-    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(148,163,184,0.35);
+    width: 160px;
+    padding: 22px 18px;
   }
   .stat-value {
-    font-size: 1.35rem;
-    font-weight: bold;
+    font-size: 1.4rem;
+    font-weight: 700;
     margin-bottom: 4px;
     color: #31317c;
   }
   .stat-label {
-    font-size: 0.98rem;
+    font-size: 0.95rem;
     color: #5d5fa6;
   }
 
@@ -178,12 +187,18 @@
       align-items: center;
     }
     .about-section {
-      padding: 28px 8px;
+      padding: 28px 10px;
+    }
+    .hero h1 {
+      font-size: 2.2rem;
+    }
+    .hero p {
+      font-size: 1.02rem;
     }
   }
 
   footer {
-    padding: 40px 20px;
+    padding: 34px 20px;
     background-color: #222;
     color: #aaa;
     text-align: center;

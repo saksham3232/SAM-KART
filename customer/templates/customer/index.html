@@ -1,6 +1,7 @@
 {% extends 'customer/basic.html' %}
 {% load static %}
-{% load hosts %}}
+{% load hosts %}
+
 {% block title %}Welcome to MauryaShop{% endblock %}
 
 {% block css %}
@@ -43,7 +44,7 @@
     padding: 14px 36px;
     font-size: 1.15rem;
     color: #fff;
-    background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%); /* 🔵 Updated base color */
+    background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%);
     border: none;
     border-radius: 30px;
     box-shadow: 0 4px 18px rgba(0, 114, 255, 0.2);
@@ -61,7 +62,7 @@
     top: 0;
     width: 50%;
     height: 100%;
-    background: linear-gradient(120deg, #5f72bd 0%, #9f9fed 100%); /* Updated hover gradient */
+    background: linear-gradient(120deg, #5f72bd 0%, #9f9fed 100%);
     transition: all 0.5s;
     z-index: 0;
     opacity: 0;
@@ -120,6 +121,7 @@
     justify-content: center;
     margin-top: 35px;
   }
+
   .feature-card {
     background: linear-gradient(135deg, #e3f2fd, #ffffff);
     border-radius: 15px;
@@ -127,76 +129,22 @@
     width: 290px;
     padding: 30px 22px;
     text-align: center;
-    transition: transform 0.4s;
+    transition: transform 0.4s, box-shadow 0.4s;
   }
+
   .feature-card:hover {
     transform: scale(1.045) translateY(-4px);
+    box-shadow: 0 10px 28px rgba(79, 70, 229, 0.24);
   }
+
   .feature-card h3 {
     color: #4e54c8;
     margin-bottom: 12px;
   }
+
   .feature-card p {
     font-size: 1rem;
     color: #444;
-  }
-
-  .products-section {
-    padding: 60px 0 30px 0;
-    background: #f6f7fb;
-  }
-  .products-title {
-    text-align: center;
-    font-size: 2rem;
-    color: #4e54c8;
-    margin-bottom: 32px;
-  }
-  .products-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-  }
-  .product-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.11);
-    width: 250px;
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.25s;
-  }
-  .product-card:hover {
-    transform: scale(1.035);
-    box-shadow: 0 8px 32px rgba(78,84,200,0.14);
-  }
-  .product-card img {
-    max-width: 120px;
-    margin-bottom: 10px;
-  }
-  .product-card h4 {
-    color: #31317c;
-    font-size: 1.13rem;
-    margin-bottom: 8px;
-  }
-  .product-card .price {
-    color: #4e54c8;
-    font-weight: bold;
-    font-size: 1.02rem;
-    margin-bottom: 16px;
-  }
-  .add-cart-btn {
-    padding: 8px 26px;
-    background: #4e54c8;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    font-size: 1rem;
-    transition: background 0.3s;
-    cursor: pointer;
-  }
-  .add-cart-btn:hover {
-    background: #22236b;
   }
 
   .stats-section {
@@ -204,6 +152,7 @@
     margin: 60px 0 30px 0;
     color: #4e54c8;
   }
+
   .stats-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -211,6 +160,7 @@
     gap: 35px;
     margin-top: 20px;
   }
+
   .stat-card {
     background: #fff;
     border-radius: 10px;
@@ -218,24 +168,32 @@
     width: 170px;
     padding: 24px;
   }
+
   .stat-value {
     font-size: 1.55rem;
     font-weight: bold;
     margin-bottom: 6px;
     color: #22236b;
   }
+
   .stat-label {
     font-size: 1rem;
     color: #6c6fa7;
   }
 
   @media (max-width: 900px) {
-    .features-wrapper, .products-grid, .stats-wrapper {
+    .features-wrapper, .stats-wrapper {
       flex-direction: column;
       align-items: center;
     }
     .about-section {
-      padding: 36px 8px;
+      padding: 36px 12px;
+    }
+    .hero h1 {
+      font-size: 2.3rem;
+    }
+    .hero p {
+      font-size: 1.05rem;
     }
   }
 
@@ -310,7 +268,8 @@
 <div class="container about-section">
   <h2>Our Mission</h2>
   <p>
-    We strive to deliver the best online shopping experience through innovation, reliability, and exceptional service. Our goal is to be your go-to destination for everything you need, delivered with trust and care.
+    We strive to deliver the best online shopping experience through innovation, reliability, and exceptional service.
+    Our goal is to be your go-to destination for everything you need, delivered with trust and care.
   </p>
 </div>
 
